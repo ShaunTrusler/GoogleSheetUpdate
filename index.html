@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			#page1 {
+				display: block;
+			}
+			
+			#page2 {
+				display: block;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<p>Update Google Sheet</P>
+		<div id='page1'>
+			<p>|Please enter your email address:</br><input id='email'></input></p>
+			<button onclick='callServer()'>Verify</button>
+		</div>
+		<div id='page2'>
+			<p>the value from the server is</p>
+			<p id='response'></p>
+			<p id='received'></p>
+		</div>
+			
+		<script>
+			var EmailAddress = 'email=' + document.getElementById('email').value;
+			const HTTP = new XMLHttpRequest();
+			const Url = 'https://script.google.com/macros/s/AKfycby1Saj-ZdReD9Lj4UGwob5dYk8k345uVLrYtnJLzZbMNUgUmak/exec' + '?' + EmailAddress;
+			var myCheckBoxList = '<ul>';				
+			var res = [];
+			
+			function callServer(){							
+				document.getElementById('response').innerHTML = Url;											
+				HTTP.responseType = 'text';
+				
+				HTTP.onreadystatechange = function() {
+					document.getElementById('recieved').innerHTML = 'WAITING...';
+					if(HTTP.readyState === 4 && HTTP.status === 200) {						
+						var JS_obj = JSON.parse(HTTP.response);
+						document.getElementById('received').innerHTML = HTTP.response;					
+						for(var i in JS_obj) {
+							res.push(JS_obj[i])							
+						}						
+					}
+					document.getElementById('page1').display = none;
+					document.getElementById('page2').display = block;
+					res.forEach(addValues);
+					myCheckBoxList += '</ul>';
+				}				
+				HTTP.open('GET', Url, true);
+				document.getElementById('received').innerHTML += myCheckBoxList;
+				HTTP.send(userInput)
+			}
+			
+			function addValues(value){
+			myCheckBoxList += '<li>' + value + '</li>';
+			}
+		</script>
+	</body>
+</html>
