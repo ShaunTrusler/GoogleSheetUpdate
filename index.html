@@ -96,9 +96,9 @@
 				var EmailAddress = 'email=' + document.getElementById('email').value;
 				var text = '';
 				var URL2 = '';
-				var Allergies = '';
-				var Song = ''; 
-				
+				var Allergies = '&allergy=none';
+				var Song = '&song=none';
+				/*
 				if(document.getElementById('alergy').value != ''){
 					Allergies = '&allergy=' + document.getElementById('alergy').value;
 				}else{
@@ -110,7 +110,7 @@
 				}else{
 					song = '&song=none';
 				}
-				
+				*/
 				
 				document.getElementById('result').innerHTML = EmailAddress + Allergies + Song;
 				var listlength = res.length;
@@ -127,7 +127,7 @@
 				}
 				
 				URL2 = 'https://script.google.com/macros/s/AKfycby1Saj-ZdReD9Lj4UGwob5dYk8k345uVLrYtnJLzZbMNUgUmak/exec' + '?' + EmailAddress + text + Allergies + Song;
-				document.getElementById('result').innerHTML = 'Please wait while we submit your selections;
+				document.getElementById('result').innerHTML = URL2;
 				
 				HTTP.responseType = 'text';
 				HTTP.open('GET', URL2, true);
